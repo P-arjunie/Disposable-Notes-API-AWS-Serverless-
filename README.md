@@ -13,7 +13,7 @@ A simple serverless API to create one-time-view "self-destructing" notes using A
 - View + auto-delete notes after 1st view
 - Expiry via DynamoDB TTL
 
-## Steps
+## 📦 Steps
 - Create a DynamoDB table named Notes with the columns noteId (Partition key), noteContent, and expireAt
 - Enable TTL (Time To Live) for the Notes table
 - Create the Lambda functions (createNote and viewNote) and deploy
@@ -31,3 +31,27 @@ A simple serverless API to create one-time-view "self-destructing" notes using A
   "noteContent": "Secret message",
   "expiryMinutes": 5
 }
+```
+**Response:**
+```json
+{
+  "message": "Note created",
+  "noteId": "abc123"
+}
+```
+
+### View Note
+`GET /notes/{noteId}`
+**Response:**
+```json
+{
+  "noteId": "abc123",
+  "noteContent": "Secret message"
+}
+```
+**After one view or TTL, it returns:**
+```json
+{
+  "message": "Note not found or expired"
+}
+```
